@@ -1,0 +1,38 @@
+
+
+
+
+import serial
+import time
+import random
+from itertools import count
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+ser = serial.Serial('COM3',9600)
+index = count()
+#time.sleep(2)
+x=[1,2,3,4,5,6,7,8,9,10]
+
+plt.style.use('fivethirtyeight')
+x_vals = []
+y_vals = []
+
+def animate(i):
+    b = ser.readline().strip()
+    b = float(b)
+    print(b)
+    #time.sleep(.5)
+    n = next(index)
+    x_vals.append(n)
+    y_vals.append(b)
+    plt.cla()
+    plt.plot(x_vals,y_vals)
+
+    plt.xlim(left=max(0, n-50), right=n+50)
+
+
+
+ani = FuncAnimation(plt.gcf(), animate, interval=50)
+plt.tight_layout()
+plt.show()
